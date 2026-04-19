@@ -130,7 +130,7 @@ Contributions are welcome! To get started:
 ### Ideas for Contributions
 
 - Persist data to a file or database so records survive between sessions.
-- Add CSV/JSON export for reports.
+- Export records to different formats: CSV, TXT, PDF, Excel, or JSON.
 - Add search functionality to find employees by name.
 - Add unit tests.
 - Support custom departments via configuration.

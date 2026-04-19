@@ -1,6 +1,8 @@
+# Imports for graphical charts
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
+# In-memory employee data (resets when program exits)
 employees = [
     {"id": 1, "name": "Alice", "department": "Engineering", "tickets": 18},
     {"id": 2, "name": "Brian", "department": "Engineering", "tickets": 12},
@@ -12,18 +14,24 @@ employees = [
     {"id": 8, "name": "Henry", "department": "Marketing", "tickets": 11},
 ]
 
+# Valid departments list
 DEPARTMENTS = ["Engineering", "Support", "Compliance", "Security", "Marketing"]
 
+# Tracks the next available ID for new employees
 next_id = 9
 
 
-def get_next_id():
+def get_next_id():  # Returns next ID and increments the counter
     global next_id
     current = next_id
     next_id += 1
     return current
 
 
+# Max width of terminal bar chart bars
+BAR_WIDTH = 30
+
+# Unicode symbols for each department in terminal chart
 DEPT_SYMBOLS = {
     "Engineering": "█",
     "Support":     "▓",
@@ -32,9 +40,10 @@ DEPT_SYMBOLS = {
     "Marketing":   "▞",
 }
 
-import colorsys
+import colorsys  # Built-in module for color conversions (HSL to RGB)
 
 
+# Base HSL colors per department for matplotlib chart
 DEPT_BASE_COLORS = {
     "Engineering": (0.58, 0.85, 0.70),
     "Support":     (0.33, 0.85, 0.70),
@@ -44,7 +53,7 @@ DEPT_BASE_COLORS = {
 }
 
 
-def generate_palette(dept, count):
+def generate_palette(dept, count):  # Creates shade variations for employees in same department
     base_h, base_s, base_l = DEPT_BASE_COLORS.get(dept, (0.0, 0.0, 0.60))
     if count == 1:
         r, g, b = colorsys.hls_to_rgb(base_h, base_l, base_s)
@@ -60,7 +69,7 @@ def generate_palette(dept, count):
     return colors
 
 
-def get_employee_color(emp):
+def get_employee_color(emp):  # Assigns a unique shade to each employee based on dept rank
     dept = emp["department"]
     dept_employees = sorted(
         [e for e in employees if e["department"] == dept],
@@ -71,7 +80,7 @@ def get_employee_color(emp):
     return palette[idx]
 
 
-def show_terminal_chart(records, title="Employee Weekly Metrics"):
+def show_terminal_chart(records, title="Employee Weekly Metrics"):  # Prints horizontal bar chart in terminal
     if not records:
         print("\nNo records to chart.")
         return
@@ -97,7 +106,7 @@ def show_terminal_chart(records, title="Employee Weekly Metrics"):
     print()
 
 
-def show_matplotlib_chart(records, title="Employee Weekly Metrics"):
+def show_matplotlib_chart(records, title="Employee Weekly Metrics"):  # Opens graphical bar chart window
     if not records:
         return
     sorted_records = sorted(records, key=lambda e: e["tickets"], reverse=True)
@@ -126,31 +135,31 @@ def show_matplotlib_chart(records, title="Employee Weekly Metrics"):
     plt.show()
 
 
-def show_bar_chart(records, title="Employee Weekly Metrics"):
+def show_bar_chart(records, title="Employee Weekly Metrics"):  # Shows terminal chart, optionally opens graphical one
     show_terminal_chart(records, title)
-    open_chart = input("Open graphical chart? (y/n): ").strip().lower()
+    open_chart = input("Open graphical chart? (y/n): ").strip().lower() # Prompt user to open matplotlib chart after showing terminal version
     if open_chart == "y":
         show_matplotlib_chart(records, title)
 
 
-def display_records(records):
+def display_records(records):  # Prints formatted table ranked by tickets (highest first)
     if not records:
         print("\nNo records found.")
         return
-    sorted_records = sorted(records, key=lambda e: e["tickets"], reverse=True)
+    sorted_records = sorted(records, key=lambda e: e["tickets"], reverse=True) # Sorts employees by tickets in descending order for display
     print(f"\n{'Rank':<6}{'ID':<6}{'Name':<22}{'Department':<16}{'Tickets':<8}")
     print("-" * 58)
     for rank, emp in enumerate(sorted_records, start=1):
         print(f"{rank:<6}{emp['id']:<6}{emp['name']:<22}{emp['department']:<16}{emp['tickets']:<8}")
 
 
-def view_all():
+def view_all():  # Displays all employees + chart
     print("\n===== All Employee Weekly Records (Highest to Lowest) =====")
     display_records(employees)
     show_bar_chart(employees, "All Employees - Weekly Metrics")
 
 
-def view_by_department():
+def view_by_department():  # Filters and displays employees by department
     print("\nDepartments:", ", ".join(DEPARTMENTS))
     dept = input("Enter department name: ").strip()
     matched = [e for e in employees if e["department"].lower() == dept.lower()]
@@ -162,7 +171,7 @@ def view_by_department():
     show_bar_chart(matched, f"{dept} - Weekly Metrics")
 
 
-def create_employee():
+def create_employee():  # Adds new employee with validation (name, dept, duplicates, tickets)
     name = input("Enter username (letters and numbers only, no spaces): ").strip()
     if not name:
         print("Username cannot be empty.")
@@ -199,7 +208,7 @@ def create_employee():
     print(f"Employee '{name}' added with ID {new_id}.")
 
 
-def update_employee():
+def update_employee():  # Edits existing employee by ID (blank input keeps current value)
     try:
         emp_id = int(input("Enter employee ID to update: "))
     except ValueError:
@@ -216,7 +225,7 @@ def update_employee():
 
     name = input(f"New username [{emp['name']}]: ").strip()
     if name:
-        if not name.isalnum():
+        if not name.isalnum(): 
             print("Username must be plain text only (letters and numbers, no spaces or special characters). Keeping current value.")
         else:
             emp["name"] = name
@@ -243,7 +252,7 @@ def update_employee():
     print(f"Employee ID {emp_id} updated.")
 
 
-def delete_employee():
+def delete_employee():  # Removes employee by ID with confirmation prompt
     try:
         emp_id = int(input("Enter employee ID to delete: "))
     except ValueError:
@@ -263,7 +272,7 @@ def delete_employee():
         print("Delete cancelled.")
 
 
-def main():
+def main():  # Main menu loop — routes user input to CRUD and view functions
     menu = """
 ========================================
    Employees Records System
@@ -290,7 +299,7 @@ def main():
         elif choice == "5":
             delete_employee()
         elif choice == "6":
-            print("Goodbye!")
+            print("See you next time!")
             break
         else:
             print("Invalid option. Please choose 1-6.")
