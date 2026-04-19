@@ -108,7 +108,16 @@ add_bullet_list(slide, Inches(6.5), Inches(1.8), Inches(6), Inches(5), [
     "• Input validation (alphanumeric names, non-negative tickets)",
 ], font_size=18)
 
-# ── Slide 4: Tech Stack ──
+# ── Slide 4: Bar Chart Visualization ──
+slide = prs.slides.add_slide(prs.slide_layouts[6])
+set_slide_bg(slide, WHITE_BG)
+add_text_box(slide, Inches(0.8), Inches(0.5), Inches(11), Inches(0.8),
+             "Bar Chart Visualization", font_size=36, color=ACCENT, bold=True)
+slide.shapes.add_picture(
+    "/Users/shanyisa/Desktop/Screenshot 2026-04-20 at 00.23.59.png",
+    Inches(1.5), Inches(1.6), Inches(10.3), Inches(5.5))
+
+# ── Slide 5: Tech Stack ──
 slide = prs.slides.add_slide(prs.slide_layouts[6])
 set_slide_bg(slide, WHITE_BG)
 add_text_box(slide, Inches(0.8), Inches(0.5), Inches(11), Inches(0.8),
@@ -211,7 +220,7 @@ slide.shapes.add_picture(
     "/Users/shanyisa/Desktop/Screenshot 2026-04-20 at 00.25.41.png",
     Inches(1.5), Inches(1.6), Inches(10.3), Inches(5.5))
 
-# ── Slide 11: Challenges & Lessons Learned ──
+# ── Slide 12: Challenges & Lessons Learned ──
 slide = prs.slides.add_slide(prs.slide_layouts[6])
 set_slide_bg(slide, WHITE_BG)
 add_text_box(slide, Inches(0.8), Inches(0.5), Inches(11), Inches(0.8),
