@@ -185,7 +185,6 @@ def create_employee():  # Adds new employee with validation (name, dept, duplica
     if dept not in DEPARTMENTS:
         print(f"Invalid department. Choose from: {', '.join(DEPARTMENTS)}")
         return
-
     duplicate = any(
         e for e in employees
         if e["name"].lower() == name.lower() and e["department"].lower() == dept.lower()
@@ -272,6 +271,19 @@ def delete_employee():  # Removes employee by ID with confirmation prompt
         print("Delete cancelled.")
 
 
+def search_employee():  # Searches employees by name (partial match, case-insensitive)
+    name = input("Enter name to search: ").strip()
+    if not name:
+        print("Search term cannot be empty.")
+        return
+    matched = [e for e in employees if name.lower() in e["name"].lower()]
+    if not matched:
+        print(f"No employees found matching '{name}'.")
+        return
+    print(f"\n===== Search Results for '{name}' =====")
+    display_records(matched)
+
+
 def main():  # Main menu loop — routes user input to CRUD and view functions
     menu = """
 ========================================
@@ -282,11 +294,12 @@ def main():  # Main menu loop — routes user input to CRUD and view functions
 3. Add employee
 4. Update employee
 5. Delete employee
-6. Exit
+6. Search employee by name
+7. Exit
 """
     while True:
         print(menu)
-        choice = input("Choose an option (1-6): ").strip()
+        choice = input("Choose an option (1-7): ").strip()
 
         if choice == "1":
             view_all()
@@ -299,10 +312,12 @@ def main():  # Main menu loop — routes user input to CRUD and view functions
         elif choice == "5":
             delete_employee()
         elif choice == "6":
+            search_employee()
+        elif choice == "7":
             print("See you next time!")
             break
         else:
-            print("Invalid option. Please choose 1-6.")
+            print("Invalid option. Please choose 1-7.")
 
 
 if __name__ == "__main__":

@@ -55,7 +55,8 @@ You will see a numbered menu:
 3. Add employee
 4. Update employee
 5. Delete employee
-6. Exit
+6. Search employee by name
+7. Exit
 ```
 
 Enter the number corresponding to the action you want to perform and follow the prompts.
@@ -131,9 +132,29 @@ Contributions are welcome! To get started:
 
 - Persist data to a file or database so records survive between sessions.
 - Export records to different formats: CSV, TXT, PDF, Excel, or JSON.
-- Add search functionality to find employees by name.
-- Add unit tests.
 - Support custom departments via configuration.
+
+## Unit Testing
+
+The project includes 32 unit tests covering core functionality. Run them with:
+
+```bash
+python -m unittest test_employees -v
+```
+
+**Test coverage includes:**
+
+| Test Area | What It Checks |
+|---|---|
+| ID Generation | Auto-incrementing IDs |
+| Color Palettes | Valid hex colors, uniqueness, correct count |
+| Department Filtering | Filter by name, case-insensitive, nonexistent dept |
+| Sorting | Descending order by tickets |
+| Duplicate Detection | Same name+dept blocked, different combos allowed |
+| Input Validation | Alphanumeric names, empty input, valid departments |
+| Search | Exact match, partial match, case-insensitive |
+| Create Employee | Valid add, empty name rejected, duplicate rejected |
+| Delete Employee | Confirmed delete, cancelled delete, nonexistent ID |
 
 ## Contact
 
