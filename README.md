@@ -1,6 +1,6 @@
 # Employees Records System
 
-A command-line Python application that tracks weekly ticket completions per employee, with full CRUD operations and dual chart visualizations (terminal + matplotlib).
+A command-line Python application that tracks weekly ticket completions per employee, with full CRUD operations, SQLite persistent storage, and dual chart visualizations (terminal + matplotlib).
 
 ## Features
 
@@ -26,6 +26,19 @@ A command-line Python application that tracks weekly ticket completions per empl
 - Compliance
 - Security
 - Marketing
+
+## Project Structure
+
+| File | Purpose |
+|------|--------|
+| `employees_records_system.py` | Main app — CLI menu, user input handling |
+| `database.py` | SQLite database — init, seed, all CRUD operations |
+| `charts.py` | Visualization — terminal and matplotlib bar charts |
+| `test_employees.py` | 33 automated unit tests |
+| `create_presentation.py` | Generates the PowerPoint presentation |
+| `employees.db` | SQLite database file (auto-created on first run) |
+
+All functions include documentation strings describing their purpose, arguments, and return values.
 
 ## Requirements
 
@@ -130,13 +143,13 @@ Contributions are welcome! To get started:
 
 ### Ideas for Contributions
 
-- Persist data to a file or database so records survive between sessions.
 - Export records to different formats: CSV, TXT, PDF, Excel, or JSON.
 - Support custom departments via configuration.
+- Web interface using Flask or Django.
 
 ## Unit Testing
 
-The project includes 32 unit tests covering core functionality. Run them with:
+The project includes 33 unit tests covering core functionality. Run them with:
 
 ```bash
 python -m unittest test_employees -v
@@ -146,15 +159,18 @@ python -m unittest test_employees -v
 
 | Test Area | What It Checks |
 |---|---|
-| ID Generation | Auto-incrementing IDs |
+| Database Init | Table creation, seed data loaded |
 | Color Palettes | Valid hex colors, uniqueness, correct count |
 | Department Filtering | Filter by name, case-insensitive, nonexistent dept |
 | Sorting | Descending order by tickets |
 | Duplicate Detection | Same name+dept blocked, different combos allowed |
 | Input Validation | Alphanumeric names, empty input, valid departments |
 | Search | Exact match, partial match, case-insensitive |
-| Create Employee | Valid add, empty name rejected, duplicate rejected |
-| Delete Employee | Confirmed delete, cancelled delete, nonexistent ID |
+| Create Employee | Valid add via database, duplicate detected |
+| Update Employee | Update by ID, nonexistent ID handling |
+| Delete Employee | Delete and verify, nonexistent ID handling |
+
+Tests use an isolated `test_employees.db` so production data is never touched.
 
 ## Contact
 
@@ -166,6 +182,6 @@ For questions, suggestions, or bug reports:
 
 ## Notes
 
-- Data is stored **in memory only**. All changes are lost when the program exits.
-- The application ships with 8 sample employees across the five departments.
+- Data is stored in an **SQLite database** (`employees.db`) — changes persist between sessions.
+- On first run, the database is auto-created and seeded with 8 sample employees across the five departments.
 - When viewing the matplotlib chart, close the chart window to return to the menu.
